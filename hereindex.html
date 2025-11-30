@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KSP Running Game</title>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: #222;
+    }
+    #player {
+        width: 50px;
+        height: 50px;
+        background: yellow;
+        position: absolute;
+        bottom: 0;
+        left: 50px;
+    }
+    .obstacle {
+        width: 40px;
+        height: 40px;
+        background: red;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        animation: move 3s linear infinite;
+    }
+    @keyframes move {
+        0% { right: -50px; }
+        100% { right: 100%; }
+    }
+</style>
+</head>
+
+<body>
+<div id="player"></div>
+<div class="obstacle"></div>
+
+<script>
+    const player = document.getElementById("player");
+    let jumping = false;
+
+    document.addEventListener("click", () => {
+        if (!jumping) jump();
+    });
+
+    function jump() {
+        jumping = true;
+        let up = 0;
+        const jumpInterval = setInterval(() => {
+            if (up >= 150) {
+                clearInterval(jumpInterval);
+                const downInterval = setInterval(() => {
+                    if (up <= 0) {
+                        clearInterval(downInterval);
+                        jumping = false;
+                    }
+                    up -= 5;
+                    player.style.bottom = up + "px";
+                }, 10);
+            }
+            up += 5;
+            player.style.bottom = up + "px";
+        }, 10);
+    }
+</script>
+
+</body>
+</html>
